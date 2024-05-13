@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: ailoadtest
+
+  influxdb2:
+    url: http://180.210.83.241:8086/
+    token: pu3lGvm4S1TqTq0WBv2mRFDGqOvfhMxH4-hz33TSw8dh9xBZcRUnmTKfeH2Za2Oil6oMVyfYzI2A9zQvKoSfpQ==
+    org: databo3
+    bucket: raw_data
+server:
+  port: 8080
