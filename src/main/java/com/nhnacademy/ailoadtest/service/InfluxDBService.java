@@ -33,7 +33,7 @@ public class InfluxDBService {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         AiRequest aiRequest = new AiRequest();
-        List<LocalDateTime> dates = new ArrayList<>();
+        List<String> dates = new ArrayList<>();
         List<Double> values = new ArrayList<>();
 
         for (FluxRecord fluxRecord : records) {
@@ -44,7 +44,6 @@ public class InfluxDBService {
                 timeStr = timeStr.substring(0, timeStr.indexOf('.'));
             }
             LocalDateTime time = LocalDateTime.parse(timeStr, formatter);
-
             if (records.size() > 24){
                 time = time.plusDays(7);
             }else {
@@ -52,8 +51,9 @@ public class InfluxDBService {
             }
 
             Double value = (Double) fluxRecord.getValue();
+            timeStr = time.format(formatter);
 
-            dates.add(time);
+            dates.add(timeStr);
             values.add(value);
         }
 

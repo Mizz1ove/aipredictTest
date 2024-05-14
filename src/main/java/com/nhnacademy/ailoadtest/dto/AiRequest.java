@@ -11,6 +11,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class AiRequest {
-    private List<LocalDateTime> dates;
+    private List<String> dates;
     private List<Double> values;
 }
