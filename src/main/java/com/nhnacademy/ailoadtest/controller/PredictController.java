@@ -1,6 +1,7 @@
 package com.nhnacademy.ailoadtest.controller;
 
 import com.nhnacademy.ailoadtest.dto.AiResponse;
+import com.nhnacademy.ailoadtest.service.CalculateService;
 import com.nhnacademy.ailoadtest.service.InfluxDBService;
 import com.nhnacademy.ailoadtest.service.PredictService;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class PredictController {
     private final PredictService predictService;
     private final InfluxDBService influxDBService;
+    private final CalculateService calculateService;
 
     @PostMapping("/temp")
-    public AiResponse predictTemp() {
+    public String predictTemp() {
         String fluxQuery = "from(bucket: \"raw_data\")\n" +
                 "  |> range(start: -7d)\n" +
                 "  |> filter(fn: (r) => r[\"_measurement\"] == \"nhnacademy\")\n" +
@@ -27,11 +29,11 @@ public class PredictController {
                 "  |> aggregateWindow(every: 1h, fn: mean, createEmpty: false)\n" +
                 "  |> yield(name: \"mean\")";
 
-        return predictService.predictTemp(influxDBService.queryData(fluxQuery));
+        return calculateService.meanTemp(predictService.predictTemp(influxDBService.queryData(fluxQuery)));
     }
 
     @PostMapping("/elect")
-    public AiResponse predictElect() {
+    public String predictElect() {
         String fluxQuery = "from(bucket: \"raw_data\")\n" +
                 "  |> range(start: -7d)\n" +
                 "  |> filter(fn: (r) => r[\"_measurement\"] == \"nhnacademy\")\n" +
@@ -43,6 +45,6 @@ public class PredictController {
                 "  |> aggregateWindow(every: 2m, fn: mean, createEmpty: false)\n" +
                 "  |> yield(name: \"mean\")";
 
-        return predictService.predictTemp(influxDBService.queryData(fluxQuery));
+        return calculateService.kwhElect(predictService.predictTemp(influxDBService.queryData(fluxQuery)));
     }
 }
