@@ -17,7 +17,7 @@ public class CalculateService {
 
         double mean = sum / count;
 
-        return Double.toString(mean);
+        return String.format("%.1f", mean);
     }
 
     public String kwhElect(AiResponse aiResponse) {
