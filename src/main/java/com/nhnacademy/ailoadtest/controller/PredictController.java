@@ -1,6 +1,5 @@
 package com.nhnacademy.ailoadtest.controller;
 
-import com.nhnacademy.ailoadtest.dto.AiResponse;
 import com.nhnacademy.ailoadtest.service.CalculateService;
 import com.nhnacademy.ailoadtest.service.InfluxDBService;
 import com.nhnacademy.ailoadtest.service.PredictService;

@@ -1,6 +1,5 @@
 package com.nhnacademy.ailoadtest.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.influxdb.client.InfluxDBClient;
 import com.influxdb.client.QueryApi;
 import com.influxdb.query.FluxRecord;
