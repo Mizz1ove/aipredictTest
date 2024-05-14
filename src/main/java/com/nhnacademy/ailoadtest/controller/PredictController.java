@@ -44,6 +44,6 @@ public class PredictController {
                 "  |> aggregateWindow(every: 2m, fn: mean, createEmpty: false)\n" +
                 "  |> yield(name: \"mean\")";
 
-        return calculateService.kwhElect(predictService.predictTemp(influxDBService.queryData(fluxQuery)));
+        return calculateService.kwhElect(predictService.predictElect(influxDBService.queryData(fluxQuery)));
     }
 }
