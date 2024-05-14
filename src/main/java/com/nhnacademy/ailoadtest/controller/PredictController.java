@@ -29,4 +29,20 @@ public class PredictController {
 
         return predictService.predictTemp(influxDBService.queryData(fluxQuery));
     }
+
+    @PostMapping("/elect")
+    public AiResponse predictElect() {
+        String fluxQuery = "from(bucket: \"raw_data\")\n" +
+                "  |> range(start: -7d)\n" +
+                "  |> filter(fn: (r) => r[\"_measurement\"] == \"nhnacademy\")\n" +
+                "  |> filter(fn: (r) => r[\"branch\"] == \"gyeongnam\")\n" +
+                "  |> filter(fn: (r) => r[\"endpoint\"] == \"electrical_energy\")\n" +
+                "  |> filter(fn: (r) => r[\"description\"] == \"w\")\n" +
+                "  |> filter(fn: (r) => r[\"phase\"] == \"total\")\n" +
+                "  |> group(columns: [\"_measurement\", \"branch\", \"endpoint\", \"description\", \"phase\", \"site\"])\n" +
+                "  |> aggregateWindow(every: 2m, fn: mean, createEmpty: false)\n" +
+                "  |> yield(name: \"mean\")";
+
+        return predictService.predictTemp(influxDBService.queryData(fluxQuery));
+    }
 }

@@ -26,4 +26,20 @@ public class InfluxDBController {
 
         return influxDBService.queryData(fluxQuery);
     }
+
+    @GetMapping("/elect")
+    public AiRequest getElectData() throws JsonProcessingException {
+        String fluxQuery = "from(bucket: \"raw_data\")\n" +
+                "  |> range(start: -7d)\n" +
+                "  |> filter(fn: (r) => r[\"_measurement\"] == \"nhnacademy\")\n" +
+                "  |> filter(fn: (r) => r[\"branch\"] == \"gyeongnam\")\n" +
+                "  |> filter(fn: (r) => r[\"endpoint\"] == \"electrical_energy\")\n" +
+                "  |> filter(fn: (r) => r[\"description\"] == \"w\")\n" +
+                "  |> filter(fn: (r) => r[\"phase\"] == \"total\")\n" +
+                "  |> group(columns: [\"_measurement\", \"branch\", \"endpoint\", \"description\", \"phase\", \"site\"])\n" +
+                "  |> aggregateWindow(every: 1h, fn: mean, createEmpty: false)\n" +
+                "  |> yield(name: \"mean\")";
+
+        return influxDBService.queryData(fluxQuery);
+    }
 }
